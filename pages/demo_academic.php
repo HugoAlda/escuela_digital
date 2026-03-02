@@ -1,45 +1,34 @@
 <?php
-/** @var PDO $pdo */
+/**
+ * demo_academic.php – Gestió Acadèmica (dades estàtiques, sense BD)
+ */
 
-$studentId = $pdo->query("SELECT id FROM students WHERE full_name = 'Marc Garcia' LIMIT 1")->fetchColumn();
+// Notes i absències de Marc Garcia (del array estàtic)
+$grades   = $GRADES;
+$absences = $ABSENCES;
 
-// Notes del curs
-$gradesStmt = $pdo->prepare(
-    'SELECT subject, term, exam_grade, work_grade, average_grade, status
-     FROM grades
-     WHERE student_id = :student_id
-     ORDER BY subject ASC'
-);
-$gradesStmt->execute([':student_id' => $studentId]);
-$grades = $gradesStmt->fetchAll();
-
-// Justificar absència
+// Justificar absència (simulat en sessió per la pàgina actual)
 $feedback = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'justify_absence') {
     $absenceId = (int) ($_POST['absence_id'] ?? 0);
-    $text = trim($_POST['justification_text'] ?? '');
+    $text      = trim($_POST['justification_text'] ?? '');
     if ($absenceId > 0 && $text !== '') {
-        $stmt = $pdo->prepare('UPDATE absences SET justified = 1, justification_text = :text WHERE id = :id');
-        $stmt->execute([':text' => $text, ':id' => $absenceId]);
+        // Actualitzem l'array en memòria per mostrar l'estat correcte en aquesta càrrega
+        foreach ($absences as &$abs) {
+            if ($abs['id'] === $absenceId) {
+                $abs['justified']          = true;
+                $abs['justification_text'] = $text;
+            }
+        }
+        unset($abs);
         $feedback = 'Absència justificada correctament.';
     }
 }
-
-// Absències
-$absStmt = $pdo->prepare(
-    'SELECT id, date, full_day, reason, justified, justification_text
-     FROM absences
-     WHERE student_id = :student_id
-     ORDER BY date DESC
-     LIMIT 10'
-);
-$absStmt->execute([':student_id' => $studentId]);
-$absences = $absStmt->fetchAll();
 ?>
 
 <div class="container section-title">
     <h2>Gestió Acadèmica</h2>
-    <p>Consulta de notes i justificació d'absències, amb dades des de la base de dades.</p>
+    <p>Consulta de notes i justificació d'absències.</p>
 </div>
 
 <div class="container">

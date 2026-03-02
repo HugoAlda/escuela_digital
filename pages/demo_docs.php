@@ -1,22 +1,14 @@
 <?php
-/** @var PDO $pdo */
+/**
+ * demo_docs.php – Gestió Documental (dades estàtiques, sense BD)
+ */
 
-$studentId = $pdo->query("SELECT id FROM students WHERE full_name = 'Marc Garcia' LIMIT 1")->fetchColumn();
-
-$docsStmt = $pdo->prepare(
-    'SELECT name, file_type, size_label, category, created_at
-     FROM documents
-     WHERE student_id = :student_id
-     ORDER BY created_at DESC'
-);
-$docsStmt->execute([':student_id' => $studentId]);
-$documents = $docsStmt->fetchAll();
+$documents = $DOCUMENTS;
 
 $requestMessage = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'request_document') {
     $docType = trim($_POST['doc_type'] ?? '');
     if ($docType !== '') {
-        // En una app real, aquí es crearia una sol·licitud a BD.
         $requestMessage = 'Sol·licitud enviada correctament. El centre prepararà el document i l\'enviarà per correu.';
     }
 }
@@ -24,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 <div class="container section-title">
     <h2>Gestió Documental</h2>
-    <p>Catàleg de documents acadèmics d'un alumne, basat en metadades en base de dades.</p>
+    <p>Catàleg de documents acadèmics d'un alumne.</p>
 </div>
 
 <div class="container">
@@ -40,14 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 <div style="padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
                     <div style="display: flex; align-items: center; gap: 15px;">
                         <?php
-                        $icon = 'fa-file';
+                        $icon  = 'fa-file';
                         $color = '#3498db';
                         if ($doc['file_type'] === 'pdf') {
-                            $icon = 'fa-file-pdf';
-                            $color = '#e74c3c';
+                            $icon = 'fa-file-pdf'; $color = '#e74c3c';
                         } elseif ($doc['file_type'] === 'jpg' || $doc['file_type'] === 'png') {
-                            $icon = 'fa-file-image';
-                            $color = '#f1c40f';
+                            $icon = 'fa-file-image'; $color = '#f1c40f';
                         }
                         ?>
                         <i class="fa <?= $icon ?>" style="font-size: 2rem; color: <?= $color ?>;"></i>

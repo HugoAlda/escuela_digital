@@ -1,7 +1,7 @@
 <div class="hero">
     <div class="container">
         <h1>Transformació Digital de l'Escola</h1>
-        <p>Impulsant l'educació cap al futur amb solucions tecnològiques reals, connectades a base de dades.</p>
+        <p>Impulsant l'educació cap al futur amb solucions tecnològiques innovadores.</p>
         <a href="index.php?page=demo" class="btn">Obrir panell d'eines</a>
     </div>
 </div>
@@ -13,7 +13,7 @@
     
     <div class="text-center mb-4">
         <p>Aquest projecte neix de la necessitat d'adaptar la nostra benvolguda escola als reptes del segle XXI.</p>
-        <p>Ara ja no és una simple demo: les funcionalitats de menjador, comunicació, gestió acadèmica i documental treballen sobre una base de dades real pensada per a un centre educatiu.</p>
+        <p>Explora les funcionalitats de menjador, comunicació, gestió acadèmica i documental pensades per al nostre centre educatiu.</p>
     </div>
 
     <div class="card-grid">
@@ -25,12 +25,12 @@
         <div class="card">
             <div class="card-icon"><i class="fa fa-comments"></i></div>
             <h3>Comunicació amb Famílies</h3>
-            <p>Circulars digitals i xat bàsic amb la tutora, guardats en BD.</p>
+            <p>Circulars digitals i xat bàsic amb la tutora.</p>
         </div>
         <div class="card">
             <div class="card-icon"><i class="fa fa-graduation-cap"></i></div>
             <h3>Gestió Acadèmica</h3>
-            <p>Consulta de notes i justificació d'absències sobre dades reals.</p>
+            <p>Consulta de notes i justificació d'absències.</p>
         </div>
         <div class="card">
             <div class="card-icon"><i class="fa fa-folder-open"></i></div>

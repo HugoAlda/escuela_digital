@@ -1,6 +1,6 @@
 <div class="container section-title">
     <h2>Panell d'Eines Digitals</h2>
-    <p>Accediu a les funcionalitats reals connectades a la base de dades.</p>
+    <p>Accediu a les funcionalitats de demostració del centre.</p>
 </div>
 
 <div class="container">

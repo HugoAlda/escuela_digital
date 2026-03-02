@@ -4,7 +4,7 @@ require_once 'data.php';
 // Simple Router
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
-// Endpoint AJAX específic per al menjador abans de pintar cap HTML
+// Endpoint AJAX per al menjador (dades estàtiques, sense BD)
 if ($page === 'demo_canteen' && isset($_GET['ajax'])) {
     $file = "pages/{$page}.php";
     if (file_exists($file)) {

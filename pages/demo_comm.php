@@ -1,62 +1,44 @@
 <?php
-/** @var PDO $pdo */
+/**
+ * demo_comm.php – Comunicació amb les Famílies (dades estàtiques, sense BD)
+ */
 
 $infoMessage = null;
 
-// Signatura de circular
+// Signatura de circular (simulada)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'sign_circular') {
     $circularId = (int) ($_POST['circular_id'] ?? 0);
     $familyName = trim($_POST['family_name'] ?? 'Família');
-
     if ($circularId > 0 && $familyName !== '') {
-        $stmt = $pdo->prepare('INSERT INTO circular_signatures (circular_id, family_name) VALUES (:circular_id, :family_name)');
-        $stmt->execute([
-            ':circular_id' => $circularId,
-            ':family_name' => $familyName,
-        ]);
-        $infoMessage = 'Circular signada digitalment.';
+        $infoMessage = 'Circular signada digitalment per ' . htmlspecialchars($familyName) . '.';
+        // Incrementem el comptador de signatures en memòria per mostrar el canvi
+        foreach ($CIRCULARS as &$c) {
+            if ($c['id'] === $circularId) { $c['signatures_count']++; }
+        }
+        unset($c);
     }
 }
 
-// Nou missatge de xat
+// Nou missatge de xat (simulat: l'afegim a l'array en memòria)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'send_message') {
     $content = trim($_POST['content'] ?? '');
     if ($content !== '') {
-        $studentId = $pdo->query("SELECT id FROM students WHERE full_name = 'Marc Garcia' LIMIT 1")->fetchColumn();
-        $stmt = $pdo->prepare('INSERT INTO messages (student_id, sender_role, sender_name, content) VALUES (:student_id, :sender_role, :sender_name, :content)');
-        $stmt->execute([
-            ':student_id' => $studentId ?: null,
-            ':sender_role' => 'familia',
-            ':sender_name' => 'Família Garcia',
-            ':content' => $content,
-        ]);
+        $MESSAGES[] = [
+            'sender_role' => 'familia',
+            'sender_name' => 'Família Garcia',
+            'content'     => $content,
+            'created_at'  => date('Y-m-d H:i:s'),
+        ];
     }
 }
 
-// Carregar circulars amb nombre de signatures
-$circularsStmt = $pdo->query(
-    'SELECT c.id, c.title, c.description, c.due_date,
-            COUNT(s.id) AS signatures_count
-     FROM circulars c
-     LEFT JOIN circular_signatures s ON s.circular_id = c.id
-     GROUP BY c.id
-     ORDER BY c.due_date ASC'
-);
-$circulars = $circularsStmt->fetchAll();
-
-// Carregar missatges de xat
-$messagesStmt = $pdo->query(
-    "SELECT sender_role, sender_name, content, created_at
-     FROM messages
-     ORDER BY created_at ASC
-     LIMIT 50"
-);
-$messages = $messagesStmt->fetchAll();
+$circulars = $CIRCULARS;
+$messages  = array_slice($MESSAGES, 0, 50);
 ?>
 
 <div class="container section-title">
     <h2>Comunicació amb les Famílies</h2>
-    <p>Circulars digitals i xat bàsic amb la tutora, guardats en base de dades.</p>
+    <p>Circulars digitals i xat bàsic amb la tutora.</p>
 </div>
 
 <div class="container" style="display: flex; gap: 30px; flex-wrap: wrap;">
@@ -105,7 +87,7 @@ $messages = $messagesStmt->fetchAll();
                             <?= htmlspecialchars($msg['content']) ?>
                         </div>
                     <?php else: ?>
-                        <div style="background: var(--primary-color); color: white; padding: 10px; border-radius: 10px 10px 0 10px; max-width: 80%; margin-left: auto; text-align: right;">
+                        <div style="background: var(--primary-color); color: white; padding: 10px; border-radius: 10px 10px 0 10px; max-width: 80%; margin-left: auto; text-align: right; margin-bottom: 10px;">
                             <?= htmlspecialchars($msg['content']) ?>
                         </div>
                     <?php endif; ?>

@@ -1,23 +1,33 @@
 <?php
-/** @var PDO $pdo */
+/**
+ * demo_canteen.php – Gestió del Menjador (dades estàtiques, sense BD)
+ */
 
-// Resposta JSON per desplegables encadenats (AJAX)
+// ── AJAX: tornar classes d'un curs ────────────────────────────────────────
 if (isset($_GET['ajax'])) {
     header('Content-Type: application/json; charset=utf-8');
 
     if ($_GET['ajax'] === 'classrooms') {
         $courseId = (int) ($_GET['course_id'] ?? 0);
-        $stmt = $pdo->prepare('SELECT id, name FROM classrooms WHERE course_id = :course_id ORDER BY sort_order, name');
-        $stmt->execute([':course_id' => $courseId]);
-        echo json_encode($stmt->fetchAll(), JSON_UNESCAPED_UNICODE);
+        $result = [];
+        foreach ($CLASSROOMS as $cl) {
+            if ($cl['course_id'] === $courseId) {
+                $result[] = ['id' => $cl['id'], 'name' => $cl['name']];
+            }
+        }
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
         exit;
     }
 
     if ($_GET['ajax'] === 'students') {
         $classroomId = (int) ($_GET['classroom_id'] ?? 0);
-        $stmt = $pdo->prepare('SELECT id, full_name FROM students WHERE classroom_id = :classroom_id ORDER BY full_name');
-        $stmt->execute([':classroom_id' => $classroomId]);
-        echo json_encode($stmt->fetchAll(), JSON_UNESCAPED_UNICODE);
+        $result = [];
+        foreach ($STUDENTS as $s) {
+            if ($s['classroom_id'] === $classroomId) {
+                $result[] = ['id' => $s['id'], 'name' => $s['full_name']];
+            }
+        }
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
         exit;
     }
 
@@ -25,10 +35,7 @@ if (isset($_GET['ajax'])) {
     exit;
 }
 
-// Carregar cursos (primer desplegable)
-$coursesStmt = $pdo->query('SELECT id, name, stage FROM courses ORDER BY sort_order, name');
-$courses = $coursesStmt->fetchAll();
-
+// ── Compra de tiquet (simulada) ───────────────────────────────────────────
 $message = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'buy_ticket') {
@@ -36,45 +43,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $date = isset($_POST['date']) ? trim($_POST['date']) : '';
 
     if ($studentId > 0 && $date !== '') {
-        // Validar que l'alumne existeix
-        $existsStmt = $pdo->prepare('SELECT COUNT(*) FROM students WHERE id = :id');
-        $existsStmt->execute([':id' => $studentId]);
-        if ((int) $existsStmt->fetchColumn() !== 1) {
-            $message = 'Alumne no vàlid.';
-        } else {
-        $menuDescription = "Menú escolar estàndard (primer, segon i postres)";
-        $stmt = $pdo->prepare('INSERT INTO canteen_tickets (student_id, date, menu_description) VALUES (:student_id, :date, :menu_description)');
-        $stmt->execute([
-            ':student_id' => $studentId,
-            ':date' => $date,
-            ':menu_description' => $menuDescription,
-        ]);
-        $message = 'Tiquet comprat correctament i registrat a la base de dades.';
-        }
+        $message = 'Tiquet comprat correctament per al dia ' . htmlspecialchars($date) . '.';
     } else {
         $message = 'Cal escollir un alumne i una data vàlida.';
     }
 }
 
-// Últims tiquets
-$ticketsStmt = $pdo->query(
-    'SELECT ct.date, ct.menu_description, ct.price, ct.status,
-            s.full_name,
-            co.name AS course_name,
-            cl.name AS classroom_name
-     FROM canteen_tickets ct
-     JOIN students s ON s.id = ct.student_id
-     JOIN classrooms cl ON cl.id = s.classroom_id
-     JOIN courses co ON co.id = cl.course_id
-     ORDER BY ct.created_at DESC
-     LIMIT 10'
-);
-$tickets = $ticketsStmt->fetchAll();
+// Tiquets recents (mostrem els 10 primers de les dades estàtiques)
+$tickets = array_slice($CANTEEN_TICKETS, 0, 10);
 ?>
 
 <div class="container section-title">
     <h2>Gestió del Menjador</h2>
-    <p>Compra real de tiquets de menjador registrada en base de dades.</p>
+    <p>Compra de tiquets de menjador i historial recent.</p>
 </div>
 
 <div class="container">
@@ -94,7 +75,7 @@ $tickets = $ticketsStmt->fetchAll();
             <label for="course_id">Curs:</label>
             <select name="course_id" id="course_id" required style="padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
                 <option value="">-- Selecciona un curs --</option>
-                <?php foreach ($courses as $course): ?>
+                <?php foreach ($COURSES as $course): ?>
                     <option value="<?= (int) $course['id'] ?>">
                         <?= htmlspecialchars($course['name']) ?> (<?= htmlspecialchars($course['stage']) ?>)
                     </option>
@@ -127,17 +108,16 @@ $tickets = $ticketsStmt->fetchAll();
         </form>
 
         <script>
-            const courseSelect = document.getElementById('course_id');
+            const courseSelect    = document.getElementById('course_id');
             const classroomSelect = document.getElementById('classroom_id');
-            const studentSelect = document.getElementById('student_id');
+            const studentSelect   = document.getElementById('student_id');
 
             function setOptions(select, options, placeholder) {
                 select.innerHTML = '';
                 const ph = document.createElement('option');
-                ph.value = '';
-                ph.textContent = placeholder;
+                ph.value = ''; ph.textContent = placeholder;
                 select.appendChild(ph);
-                options.forEach((opt) => {
+                options.forEach(opt => {
                     const o = document.createElement('option');
                     o.value = opt.id;
                     o.textContent = opt.name || opt.full_name || '';
@@ -152,12 +132,9 @@ $tickets = $ticketsStmt->fetchAll();
                 setOptions(studentSelect, [], '-- Selecciona una classe primer --');
                 studentSelect.disabled = true;
 
-                if (!courseId) {
-                    setOptions(classroomSelect, [], '-- Selecciona un curs primer --');
-                    return;
-                }
+                if (!courseId) { setOptions(classroomSelect, [], '-- Selecciona un curs primer --'); return; }
 
-                const res = await fetch(`index.php?page=demo_canteen&ajax=classrooms&course_id=${encodeURIComponent(courseId)}`);
+                const res  = await fetch(`index.php?page=demo_canteen&ajax=classrooms&course_id=${encodeURIComponent(courseId)}`);
                 const data = await res.json();
                 setOptions(classroomSelect, data, '-- Selecciona una classe --');
                 classroomSelect.disabled = false;
@@ -168,16 +145,11 @@ $tickets = $ticketsStmt->fetchAll();
                 setOptions(studentSelect, [], '-- Carregant alumnes... --');
                 studentSelect.disabled = true;
 
-                if (!classroomId) {
-                    setOptions(studentSelect, [], '-- Selecciona una classe primer --');
-                    return;
-                }
+                if (!classroomId) { setOptions(studentSelect, [], '-- Selecciona una classe primer --'); return; }
 
-                const res = await fetch(`index.php?page=demo_canteen&ajax=students&classroom_id=${encodeURIComponent(classroomId)}`);
-                const data = await res.json();
-                // Re-map perquè setOptions utilitzi "name"
-                const students = data.map(s => ({ id: s.id, name: s.full_name }));
-                setOptions(studentSelect, students, '-- Selecciona un alumne --');
+                const res     = await fetch(`index.php?page=demo_canteen&ajax=students&classroom_id=${encodeURIComponent(classroomId)}`);
+                const data    = await res.json();
+                setOptions(studentSelect, data, '-- Selecciona un alumne --');
                 studentSelect.disabled = false;
             });
         </script>
