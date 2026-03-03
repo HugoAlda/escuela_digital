@@ -1,0 +1,108 @@
+/* ── Base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #1E293B; overflow-x: hidden; }
+
+/* ── Gradient hero ────────────────────────────────────────── */
+.hero-gradient {
+    background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 40%, #7C3AED 100%);
+    position: relative;
+    overflow: hidden;
+}
+.hero-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 80% 60% at 70% 30%, rgba(255,255,255,.08) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(124,58,237,.3) 0%, transparent 60%);
+    pointer-events: none;
+}
+/* Floating dots decoration */
+.hero-gradient::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.15) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+}
+
+/* ── Navbar ───────────────────────────────────────────────── */
+nav { transition: background .3s, box-shadow .3s; }
+nav.scrolled { background: rgba(255,255,255,.95) !important; backdrop-filter: blur(10px); box-shadow: 0 1px 20px rgba(0,0,0,.08); }
+nav.scrolled .nav-logo-text { color: #1D4ED8 !important; }
+nav.scrolled .nav-link { color: #334155 !important; }
+nav.scrolled .nav-link:hover { color: #2563EB !important; }
+nav.scrolled #menu-btn { color: #1D4ED8 !important; }
+
+/* ── Cards ────────────────────────────────────────────────── */
+.module-card {
+    background: white;
+    border-radius: 1.25rem;
+    border: 1px solid #E2E8F0;
+    transition: transform .25s ease, box-shadow .25s ease;
+    position: relative;
+    overflow: hidden;
+}
+.module-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: var(--card-color, #2563EB);
+    border-radius: 1.25rem 1.25rem 0 0;
+}
+.module-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,.1); }
+
+/* ── Icon blobs ───────────────────────────────────────────── */
+.icon-blob {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+}
+
+/* ── Stats counter ────────────────────────────────────────── */
+.stat-counter { font-family: 'Outfit', sans-serif; }
+
+/* ── Timeline ─────────────────────────────────────────────── */
+.timeline-item { position: relative; padding-left: 2rem; }
+.timeline-item::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 2px; background: #DBEAFE;
+}
+.timeline-item::after {
+    content: '';
+    position: absolute; left: -5px; top: 22px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #2563EB;
+    border: 2px solid white;
+    box-shadow: 0 0 0 3px #DBEAFE;
+}
+
+/* ── Mobile menu ──────────────────────────────────────────── */
+#mobile-menu { transition: max-height .35s ease, opacity .35s ease; max-height: 0; opacity: 0; overflow: hidden; }
+#mobile-menu.open { max-height: 400px; opacity: 1; }
+
+/* ── Scroll reveal ────────────────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── Back to top ──────────────────────────────────────────── */
+#back-top {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: #2563EB; color: white; border: none; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(37,99,235,.4);
+    opacity: 0; transform: translateY(20px);
+    transition: opacity .3s, transform .3s;
+    display: flex; align-items: center; justify-content: center;
+}
+#back-top.show { opacity: 1; transform: translateY(0); }
+#back-top:hover { background: #1D4ED8; }
+
+/* ── Typed cursor ─────────────────────────────────────────── */
+.typed-cursor { display: inline-block; animation: blink .7s step-end infinite; }
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }

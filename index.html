@@ -1,11 +1,494 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Escola Digital – Pla de Transformació Digital</title>
+    <meta name="description" content="Pla de Transformació Digital de l'Escola: digitalitza el menjador, comunicació, gestió acadèmica, documental i extraescolars.">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary:  { DEFAULT: '#2563EB', dark: '#1D4ED8', light: '#DBEAFE' },
+                        accent:   { DEFAULT: '#7C3AED', dark: '#6D28D9', light: '#EDE9FE' },
+                        success:  '#10B981',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Outfit', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <h1>Escuela Digital</h1>
+<body class="antialiased">
+
+<!-- ═══════════════════════════════ NAVBAR ══════════════════════════════════ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background: transparent;">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="flex items-center justify-between h-16">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 nav-logo-text font-display font-700 text-xl text-white">
+                <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+                    <i class="fa-solid fa-graduation-cap text-white text-sm"></i>
+                </div>
+                Escola Digital
+            </a>
+
+            <!-- Desktop links -->
+            <ul class="hidden md:flex items-center gap-6">
+                <li><a href="#modules"   class="nav-link text-white/90 text-sm font-medium hover:text-white transition-colors duration-200">Mòduls</a></li>
+                <li><a href="#benefits"  class="nav-link text-white/90 text-sm font-medium hover:text-white transition-colors duration-200">Beneficis</a></li>
+                <li><a href="#roadmap"   class="nav-link text-white/90 text-sm font-medium hover:text-white transition-colors duration-200">Calendari</a></li>
+                <li><a href="#contact"   class="nav-link text-white/90 text-sm font-medium hover:text-white transition-colors duration-200">Contacte</a></li>
+                <li>
+                    <a href="#modules" class="bg-white text-primary font-semibold text-sm px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors duration-200">
+                        Explorar
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Mobile button -->
+            <button id="menu-btn" class="md:hidden text-white text-xl focus:outline-none" aria-label="Menú">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden bg-white rounded-xl mb-2 shadow-xl">
+            <ul class="flex flex-col p-4 gap-1">
+                <li><a href="#modules"  class="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-primary text-sm font-medium transition-colors">Mòduls</a></li>
+                <li><a href="#benefits" class="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-primary text-sm font-medium transition-colors">Beneficis</a></li>
+                <li><a href="#roadmap"  class="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-primary text-sm font-medium transition-colors">Calendari</a></li>
+                <li><a href="#contact"  class="block px-3 py-2 rounded-lg text-slate-700 hover:bg-blue-50 hover:text-primary text-sm font-medium transition-colors">Contacte</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ═══════════════════════════════ HERO ════════════════════════════════════ -->
+<section class="hero-gradient min-h-screen flex items-center pt-16">
+    <div class="max-w-6xl mx-auto px-6 py-24 relative z-10 w-full">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+
+            <!-- Left copy -->
+            <div>
+                <div class="inline-flex items-center gap-2 bg-white/15 text-white text-xs font-semibold px-3 py-1.5 rounded-full mb-6 backdrop-blur-sm border border-white/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                    Activitat 12 – Transformació Digital
+                </div>
+                <h1 class="font-display font-800 text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-4">
+                    L'escola del <br>
+                    <span id="typed-text" class="text-yellow-300"></span><span class="typed-cursor text-yellow-300">|</span>
+                </h1>
+                <p class="text-white/80 text-lg leading-relaxed mb-8 max-w-lg">
+                    Un pla integral de digitalització per modernitzar els processos de l'escola: del menjador a la gestió acadèmica, tot connectat i sense paper.
+                </p>
+                <div class="flex flex-wrap gap-3">
+                    <a href="#modules" class="inline-flex items-center gap-2 bg-white text-primary font-semibold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors duration-200 shadow-lg">
+                        <i class="fa fa-th-large text-sm"></i> Veure mòduls
+                    </a>
+                    <a href="#roadmap" class="inline-flex items-center gap-2 bg-white/15 text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/25 transition-colors duration-200 border border-white/25 backdrop-blur-sm">
+                        <i class="fa fa-calendar text-sm"></i> Calendari
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right – mini stats -->
+            <div class="hidden md:grid grid-cols-2 gap-4">
+                <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 text-white">
+                    <div class="text-4xl font-display font-800 text-yellow-300 mb-1 stat-counter" data-target="5">0</div>
+                    <div class="text-sm text-white/75">Mòduls digitalitzats</div>
+                    <div class="mt-3 text-xl"><i class="fa fa-layer-group"></i></div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 text-white mt-6">
+                    <div class="text-4xl font-display font-800 text-green-300 mb-1 stat-counter" data-target="100">0</div>
+                    <div class="text-sm text-white/75">% paperless</div>
+                    <div class="mt-3 text-xl"><i class="fa fa-leaf"></i></div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 text-white">
+                    <div class="text-4xl font-display font-800 text-purple-300 mb-1 stat-counter" data-target="500">0</div>
+                    <div class="text-sm text-white/75">Alumnes beneficiats</div>
+                    <div class="mt-3 text-xl"><i class="fa fa-users"></i></div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 text-white mt-6">
+                    <div class="text-4xl font-display font-800 text-blue-200 mb-1 stat-counter" data-target="3">0</div>
+                    <div class="text-sm text-white/75">Fases de desplegament</div>
+                    <div class="mt-3 text-xl"><i class="fa fa-rocket"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wave divider -->
+    <div class="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,80 C360,0 1080,0 1440,80 L1440,80 L0,80 Z" fill="#F8FAFC"/>
+        </svg>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════ MÓDULOS ══════════════════════════════════ -->
+<section id="modules" class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+
+        <div class="text-center mb-16 reveal">
+            <span class="text-primary font-semibold text-sm uppercase tracking-widest">Solucions</span>
+            <h2 class="font-display font-700 text-4xl text-slate-800 mt-2 mb-4">Mòduls de digitalització</h2>
+            <p class="text-slate-500 max-w-xl mx-auto">Cinc àrees clau transformades per eliminar el paper i guanyar eficiència a l'escola.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- 1. Menjador -->
+            <div class="module-card p-6 reveal" style="--card-color: #2563EB;">
+                <div class="icon-blob bg-blue-100 text-blue-600 mb-4">
+                    <i class="fa fa-utensils"></i>
+                </div>
+                <h3 class="font-display font-700 text-lg text-slate-800 mb-2">Gestió del Menjador</h3>
+                <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                    Compra de tiquets online, llistes digitals i confirmació d'assistència sense paper ni cues a secretaria.
+                </p>
+                <ul class="space-y-1 text-sm text-slate-600">
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-blue-500 text-xs"></i> Reserva des del mòbil</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-blue-500 text-xs"></i> QR d'entrada al menjador</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-blue-500 text-xs"></i> Notificació automàtica a cuina</li>
+                </ul>
+                <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="bg-blue-50 text-blue-600 text-xs font-semibold px-2 py-1 rounded-full">Fase 1</span>
+                    <a href="#" class="text-blue-600 text-sm font-medium hover:underline">Veure detalls →</a>
+                </div>
+            </div>
+
+            <!-- 2. Comunicació Famílies -->
+            <div class="module-card p-6 reveal" style="--card-color: #7C3AED;">
+                <div class="icon-blob bg-purple-100 text-purple-600 mb-4">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <h3 class="font-display font-700 text-lg text-slate-800 mb-2">Comunicació amb Famílies</h3>
+                <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                    Circulars digitals amb signatura electrònica i xat directe entre tutors i famílies, substituint el paper.
+                </p>
+                <ul class="space-y-1 text-sm text-slate-600">
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-purple-500 text-xs"></i> Circulars amb firma digital</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-purple-500 text-xs"></i> Xat família–tutor</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-purple-500 text-xs"></i> Confirmació de lectura</li>
+                </ul>
+                <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="bg-purple-50 text-purple-600 text-xs font-semibold px-2 py-1 rounded-full">Fase 1</span>
+                    <a href="#" class="text-purple-600 text-sm font-medium hover:underline">Veure detalls →</a>
+                </div>
+            </div>
+
+            <!-- 3. Comunicació Interna -->
+            <div class="module-card p-6 reveal" style="--card-color: #0891B2;">
+                <div class="icon-blob bg-cyan-100 text-cyan-600 mb-4">
+                    <i class="fa fa-bullhorn"></i>
+                </div>
+                <h3 class="font-display font-700 text-lg text-slate-800 mb-2">Comunicació Interna</h3>
+                <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                    Portal intern per a professors i personal: avisos, circulars i convocatòries de reunions en un sol lloc.
+                </p>
+                <ul class="space-y-1 text-sm text-slate-600">
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-cyan-500 text-xs"></i> Tauler d'avisos digital</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-cyan-500 text-xs"></i> Convocatòries amb RSVP</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-cyan-500 text-xs"></i> Notificacions push</li>
+                </ul>
+                <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="bg-cyan-50 text-cyan-600 text-xs font-semibold px-2 py-1 rounded-full">Fase 2</span>
+                    <a href="#" class="text-cyan-600 text-sm font-medium hover:underline">Veure detalls →</a>
+                </div>
+            </div>
+
+            <!-- 4. Gestió Documental -->
+            <div class="module-card p-6 reveal" style="--card-color: #D97706;">
+                <div class="icon-blob bg-amber-100 text-amber-600 mb-4">
+                    <i class="fa fa-folder-open"></i>
+                </div>
+                <h3 class="font-display font-700 text-lg text-slate-800 mb-2">Gestió Documental</h3>
+                <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                    Expedients acadèmics i administratius digitals, sol·licituds de certificats online i accés segur als documents.
+                </p>
+                <ul class="space-y-1 text-sm text-slate-600">
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-amber-500 text-xs"></i> Expedients digitals</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-amber-500 text-xs"></i> Sol·licitud de certificats</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-amber-500 text-xs"></i> Arxiu segur al núvol</li>
+                </ul>
+                <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="bg-amber-50 text-amber-600 text-xs font-semibold px-2 py-1 rounded-full">Fase 2</span>
+                    <a href="#" class="text-amber-600 text-sm font-medium hover:underline">Veure detalls →</a>
+                </div>
+            </div>
+
+            <!-- 5. Extraescolars -->
+            <div class="module-card p-6 reveal" style="--card-color: #059669;">
+                <div class="icon-blob bg-emerald-100 text-emerald-600 mb-4">
+                    <i class="fa fa-star"></i>
+                </div>
+                <h3 class="font-display font-700 text-lg text-slate-800 mb-2">Gestió d'Extraescolars</h3>
+                <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                    Catàleg digital d'activitats extraescolars amb inscripció online, pagament i llista de places en temps real.
+                </p>
+                <ul class="space-y-1 text-sm text-slate-600">
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-emerald-500 text-xs"></i> Catàleg d'activitats</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-emerald-500 text-xs"></i> Inscripció online</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-check-circle text-emerald-500 text-xs"></i> Places en temps real</li>
+                </ul>
+                <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <span class="bg-emerald-50 text-emerald-600 text-xs font-semibold px-2 py-1 rounded-full">Fase 3</span>
+                    <a href="#" class="text-emerald-600 text-sm font-medium hover:underline">Veure detalls →</a>
+                </div>
+            </div>
+
+            <!-- CTA card -->
+            <div class="rounded-2xl p-6 reveal flex flex-col justify-center items-center text-center"
+                 style="background: linear-gradient(135deg,#2563EB,#7C3AED); min-height: 280px;">
+                <div class="text-white/80 text-3xl mb-4"><i class="fa fa-rocket"></i></div>
+                <h3 class="font-display font-700 text-lg text-white mb-2">Pla complet</h3>
+                <p class="text-white/75 text-sm mb-5">Descobreix com cada mòdul s'integra per formar un ecosistema digital complet per a l'escola.</p>
+                <a href="#roadmap" class="bg-white text-primary font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors">
+                    Veure calendari
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════ BENEFITS ═════════════════════════════════ -->
+<section id="benefits" class="py-24 px-6 bg-slate-900 relative overflow-hidden">
+    <!-- Decoration -->
+    <div class="absolute inset-0 opacity-10"
+         style="background-image: radial-gradient(rgba(255,255,255,.5) 1px, transparent 1px); background-size: 28px 28px;"></div>
+    <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full"
+         style="background: radial-gradient(circle, rgba(124,58,237,.5), transparent 70%);"></div>
+
+    <div class="max-w-6xl mx-auto relative z-10">
+        <div class="text-center mb-16 reveal">
+            <span class="text-purple-400 font-semibold text-sm uppercase tracking-widest">Per què digitalitzar?</span>
+            <h2 class="font-display font-700 text-4xl text-white mt-2 mb-4">Beneficis de la transformació</h2>
+            <p class="text-slate-400 max-w-xl mx-auto">Un impacte real per a tota la comunitat educativa.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center reveal hover:bg-white/10 transition-colors">
+                <div class="text-4xl text-yellow-400 mb-3"><i class="fa fa-tree"></i></div>
+                <div class="font-display font-700 text-2xl text-white mb-1">−80%</div>
+                <div class="text-slate-400 text-sm">Ús de paper</div>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center reveal hover:bg-white/10 transition-colors">
+                <div class="text-4xl text-green-400 mb-3"><i class="fa fa-clock"></i></div>
+                <div class="font-display font-700 text-2xl text-white mb-1">+60%</div>
+                <div class="text-slate-400 text-sm">Eficiència administrativa</div>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center reveal hover:bg-white/10 transition-colors">
+                <div class="text-4xl text-blue-400 mb-3"><i class="fa fa-smile"></i></div>
+                <div class="font-display font-700 text-2xl text-white mb-1">+90%</div>
+                <div class="text-slate-400 text-sm">Satisfacció de les famílies</div>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center reveal hover:bg-white/10 transition-colors">
+                <div class="text-4xl text-purple-400 mb-3"><i class="fa fa-shield-alt"></i></div>
+                <div class="font-display font-700 text-2xl text-white mb-1">100%</div>
+                <div class="text-slate-400 text-sm">Dades protegides (GDPR)</div>
+            </div>
+        </div>
+
+        <!-- Quote -->
+        <blockquote class="mt-16 text-center reveal">
+            <p class="text-white/70 text-xl font-light italic max-w-3xl mx-auto leading-relaxed">
+                "La transformació digital no és una opció sinó una necessitat en l'entorn empresarial actual."
+            </p>
+            <cite class="block mt-4 text-slate-500 text-sm">— Activitat 12, Digitalització d'empreses</cite>
+        </blockquote>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════ ROADMAP ══════════════════════════════════ -->
+<section id="roadmap" class="py-24 px-6">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16 reveal">
+            <span class="text-primary font-semibold text-sm uppercase tracking-widest">Cronograma</span>
+            <h2 class="font-display font-700 text-4xl text-slate-800 mt-2 mb-4">Calendari de desplegament</h2>
+            <p class="text-slate-500 max-w-xl mx-auto">Tres fases progressives per assegurar una transició suau i sense riscos.</p>
+        </div>
+
+        <div class="space-y-8">
+
+            <!-- Phase 1 -->
+            <div class="timeline-item reveal">
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                        <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Fase 1</span>
+                        <span class="text-slate-400 text-sm">Setembre – Desembre 2026</span>
+                    </div>
+                    <h3 class="font-display font-700 text-xl text-slate-800 mb-2">Processos essencials</h3>
+                    <p class="text-slate-500 text-sm mb-4">Digitalització dels processos més urgents: menjador i comunicació amb les famílies.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-lg font-medium">🍽️ Gestió del Menjador</span>
+                        <span class="bg-purple-50 text-purple-600 text-xs px-2 py-1 rounded-lg font-medium">💬 Comunicació Famílies</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="timeline-item reveal">
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                        <span class="bg-cyan-100 text-cyan-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Fase 2</span>
+                        <span class="text-slate-400 text-sm">Gener – Març 2027</span>
+                    </div>
+                    <h3 class="font-display font-700 text-xl text-slate-800 mb-2">Gestió i comunicació interna</h3>
+                    <p class="text-slate-500 text-sm mb-4">Implementació del portal del personal i la gestió documental administrativa.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-cyan-50 text-cyan-600 text-xs px-2 py-1 rounded-lg font-medium">📢 Comunicació Interna</span>
+                        <span class="bg-amber-50 text-amber-600 text-xs px-2 py-1 rounded-lg font-medium">📁 Gestió Documental</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="timeline-item reveal">
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                        <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Fase 3</span>
+                        <span class="text-slate-400 text-sm">Abril – Juny 2027</span>
+                    </div>
+                    <h3 class="font-display font-700 text-xl text-slate-800 mb-2">Activitats i consolidació</h3>
+                    <p class="text-slate-500 text-sm mb-4">Inscripció digital a extraescolars i revisió global del sistema per avaluar l'impacte.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-emerald-50 text-emerald-600 text-xs px-2 py-1 rounded-lg font-medium">⭐ Extraescolars</span>
+                        <span class="bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-lg font-medium">📊 Avaluació d'impacte</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════ CTA ══════════════════════════════════════ -->
+<section class="py-20 px-6" style="background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);">
+    <div class="max-w-3xl mx-auto text-center reveal">
+        <h2 class="font-display font-800 text-4xl text-white mb-4">Preparat per al canvi?</h2>
+        <p class="text-white/75 text-lg mb-8">L'escola del futur comença ara. Cada pas compte.</p>
+        <a href="#modules" class="inline-flex items-center gap-2 bg-white text-primary font-bold px-8 py-4 rounded-2xl hover:bg-blue-50 transition-colors shadow-xl text-base">
+            <i class="fa fa-play-circle"></i> Explorar els mòduls
+        </a>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════ CONTACT ══════════════════════════════════ -->
+<section id="contact" class="py-24 px-6 bg-slate-50">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12 reveal">
+            <span class="text-primary font-semibold text-sm uppercase tracking-widest">Contacte</span>
+            <h2 class="font-display font-700 text-4xl text-slate-800 mt-2 mb-4">Parlem-ne</h2>
+            <p class="text-slate-500 max-w-md mx-auto">Tens algun dubte sobre el pla de digitalització? Envia'ns un missatge.</p>
+        </div>
+
+        <div class="max-w-2xl mx-auto reveal">
+            <form id="contact-form" class="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm space-y-5">
+                <div class="grid sm:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1.5" for="fname">Nom</label>
+                        <input id="fname" type="text" placeholder="Maria" required
+                               class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1.5" for="email">Correu electrònic</label>
+                        <input id="email" type="email" placeholder="maria@escola.cat" required
+                               class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5" for="subject">Assumpte</label>
+                    <select id="subject"
+                            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all text-slate-600">
+                        <option value="">-- Selecciona un mòdul --</option>
+                        <option>Gestió del Menjador</option>
+                        <option>Comunicació amb Famílies</option>
+                        <option>Comunicació Interna</option>
+                        <option>Gestió Documental</option>
+                        <option>Gestió Extraescolars</option>
+                        <option>Altra consulta</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5" for="message">Missatge</label>
+                    <textarea id="message" rows="4" placeholder="Explica'ns el teu dubte o proposta..." required
+                              class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all"></textarea>
+                </div>
+
+                <div id="form-success" class="hidden bg-green-50 border border-green-200 text-green-700 text-sm rounded-xl px-4 py-3 flex items-center gap-2">
+                    <i class="fa fa-check-circle"></i> Missatge enviat correctament! Et contactarem aviat.
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-primary text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2 shadow-lg shadow-blue-200">
+                    <i class="fa fa-paper-plane text-sm"></i> Enviar missatge
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════════ -->
+<footer class="bg-slate-900 text-slate-400 py-12 px-6">
+    <div class="max-w-6xl mx-auto">
+        <div class="grid sm:grid-cols-3 gap-8 mb-8">
+            <div>
+                <div class="flex items-center gap-2 text-white font-display font-700 text-lg mb-3">
+                    <i class="fa-solid fa-graduation-cap text-blue-400"></i>
+                    Escola Digital
+                </div>
+                <p class="text-sm leading-relaxed text-slate-500">
+                    Pla de Transformació Digital per a una escola tradicional. Projecte acadèmic – Activitat 12.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold text-sm mb-3">Mòduls</h4>
+                <ul class="space-y-1.5 text-sm">
+                    <li><a href="#modules" class="hover:text-white transition-colors">Gestió del Menjador</a></li>
+                    <li><a href="#modules" class="hover:text-white transition-colors">Comunicació Famílies</a></li>
+                    <li><a href="#modules" class="hover:text-white transition-colors">Comunicació Interna</a></li>
+                    <li><a href="#modules" class="hover:text-white transition-colors">Gestió Documental</a></li>
+                    <li><a href="#modules" class="hover:text-white transition-colors">Extraescolars</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold text-sm mb-3">Contacte</h4>
+                <ul class="space-y-1.5 text-sm">
+                    <li class="flex items-center gap-2"><i class="fa fa-envelope w-4 text-center"></i> suport@escoladigital.cat</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-phone w-4 text-center"></i> 93 123 45 67</li>
+                    <li class="flex items-center gap-2"><i class="fa fa-map-marker-alt w-4 text-center"></i> Catalunya, Espanya</li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-slate-800 pt-6 text-center text-xs text-slate-600">
+            © 2026 Escola Digital. Tots els drets reservats. — Projecte acadèmic de digitalització empresarial.
+        </div>
+    </div>
+</footer>
+
+<!-- Back to top -->
+<button id="back-top" aria-label="Tornar amunt"><i class="fa fa-arrow-up text-sm"></i></button>
+
+<!-- Custom JS -->
+<script src="js/script.js" defer></script>
+
 </body>
 </html>
