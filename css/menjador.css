@@ -1,0 +1,76 @@
+body {
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── Gradientes ──────────────────────────────────────── */
+.ticket-gradient {
+    background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+}
+
+.bg-primary-gradient {
+    background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%);
+}
+
+/* ── Ticket ────────────────────────────────────────── */
+#tiquet-digital {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#tiquet-digital:hover {
+    transform: translateY(-8px) rotate(-1deg);
+}
+
+/* Agujeros */
+.bg-slate-50 {
+    background-color: #f8fafc;
+}
+
+/* ── Animaciones ───────────────────────────────────────────── */
+@keyframes pop {
+    0% {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#vista-alumne,
+#vista-cuina {
+    animation: pop 0.4s ease-out forwards;
+}
+
+/* Badges */
+.status-pill {
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Transición */
+.hidden {
+    display: none !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
