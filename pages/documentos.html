@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestió Documental - Escola Digital</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#7C3AED',
+                        accent: '#FACC15',
+                        dark: '#1E293B'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body class="bg-slate-50 min-h-screen font-sans">
+
+    <!-- NAV -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+
+                <div class="flex items-center gap-2">
+                    <a href="../index.html" class="text-slate-400 hover:text-primary">
+                        <i class="fa fa-arrow-left"></i>
+                    </a>
+
+                    <span class="font-display text-xl text-secondary flex items-center gap-2">
+                        <i class="fa fa-folder-open"></i>
+                        Escola<span class="text-slate-900">Docs</span>
+                    </span>
+                </div>
+
+                <div class="flex items-center gap-4">
+
+                    <button id="view-toggle"
+                        class="bg-purple-50 text-secondary px-4 py-2 rounded-lg text-sm font-semibold hover:bg-purple-100">
+                        <i class="fa fa-exchange-alt mr-2"></i> Canviar Vista
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- VISTA FAMILIA -->
+        <div id="vista-familia">
+
+            <header class="mb-6">
+                <h1 class="font-display text-3xl text-slate-900">Documents Familiars</h1>
+                <p class="text-slate-500">Consulta els documents disponibles de l'alumne.</p>
+            </header>
+
+            <div class="grid md:grid-cols-3 gap-6">
+
+                <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-purple-100 text-secondary flex items-center justify-center mb-4">
+                        <i class="fa fa-file"></i>
+                    </div>
+
+                    <h3 class="font-display text-lg text-slate-900 mb-2">
+                        Certificat d'escolarització
+                    </h3>
+
+                    <p class="text-sm text-slate-600 mb-4">
+                        Document oficial del centre educatiu.
+                    </p>
+
+                    <button class="bg-secondary text-white px-4 py-2 rounded-lg text-sm">
+                        Descarregar
+                    </button>
+
+                </div>
+
+
+                <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-primary flex items-center justify-center mb-4">
+                        <i class="fa fa-file-lines"></i>
+                    </div>
+
+                    <h3 class="font-display text-lg text-slate-900 mb-2">
+                        Expedient acadèmic
+                    </h3>
+
+                    <p class="text-sm text-slate-600 mb-4">
+                        Notes i historial acadèmic.
+                    </p>
+
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm">
+                        Veure document
+                    </button>
+
+                </div>
+
+
+                <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+                    <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mb-4">
+                        <i class="fa fa-cloud"></i>
+                    </div>
+
+                    <h3 class="font-display text-lg text-slate-900 mb-2">
+                        Documents del centre
+                    </h3>
+
+                    <p class="text-sm text-slate-600 mb-4">
+                        Normativa i documents generals.
+                    </p>
+
+                    <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm">
+                        Consultar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- VISTA CENTRE -->
+        <div id="vista-centre" class="hidden">
+
+            <header class="mb-6">
+                <h1 class="font-display text-3xl text-slate-900">Tauler de Gestió Documental</h1>
+                <p class="text-slate-500">Gestió dels expedients digitals dels alumnes.</p>
+            </header>
+
+
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+
+                <div class="p-6 border-b border-slate-200">
+                    <h3 class="font-display text-lg text-slate-900">
+                        Expedients acadèmics
+                    </h3>
+                </div>
+
+                <div class="overflow-x-auto">
+
+                    <table class="w-full text-left">
+
+                        <thead class="bg-slate-50 text-slate-400 text-xs uppercase font-bold">
+
+                            <tr>
+                                <th class="px-6 py-4">Alumne</th>
+                                <th class="px-6 py-4">Curs</th>
+                                <th class="px-6 py-4">Expedient</th>
+                                <th class="px-6 py-4">Documents</th>
+                                <th class="px-6 py-4">Estat</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="divide-y divide-slate-100">
+
+                            <tr>
+                                <td class="px-6 py-4 font-semibold text-slate-700">Marc García</td>
+                                <td class="px-6 py-4 text-sm text-slate-500">5è Primària</td>
+                                <td class="px-6 py-4 text-sm">Digital</td>
+                                <td class="px-6 py-4 text-sm">12</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="px-2 py-1 bg-green-50 text-green-600 text-xs font-bold rounded-full">Actualitzat</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="px-6 py-4 font-semibold text-slate-700">Laura Martínez</td>
+                                <td class="px-6 py-4 text-sm text-slate-500">6è Primària</td>
+                                <td class="px-6 py-4 text-sm">Digital</td>
+                                <td class="px-6 py-4 text-sm">10</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="px-2 py-1 bg-amber-50 text-amber-600 text-xs font-bold rounded-full">Revisió</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="px-6 py-4 font-semibold text-slate-700">Pol Fernández</td>
+                                <td class="px-6 py-4 text-sm text-slate-500">4t Primària</td>
+                                <td class="px-6 py-4 text-sm">Digital</td>
+                                <td class="px-6 py-4 text-sm">8</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-full">Actiu</span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        const toggleBtn = document.getElementById("view-toggle")
+
+        const vistaFamilia = document.getElementById("vista-familia")
+        const vistaCentre = document.getElementById("vista-centre")
+
+        toggleBtn.addEventListener("click", () => {
+
+            vistaFamilia.classList.toggle("hidden")
+            vistaCentre.classList.toggle("hidden")
+
+        })
+
+    </script>
+
+</body>
+
+</html>
