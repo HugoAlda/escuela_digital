@@ -52,14 +52,41 @@ body {
     text-transform: uppercase;
 }
 
-/* Transición */
-.hidden {
-    display: none !important;
+/* ── Modal ────────────────────────────────────────────────── */
+#tpv-modal.flex { display: flex; }
+#tpv-modal.active .modal-backdrop { opacity: 1; }
+#tpv-modal.active .modal-container { transform: scale(1); opacity: 1; pointer-events: auto; }
+
+.modal-backdrop {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 201;
+}
+
+.modal-container {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 202;
+    pointer-events: none;
+}
+
+/* ── Responsividad Tabla ───────────────────────────────────── */
+@media (max-width: 640px) {
+    .overflow-x-auto table {
+        min-width: 500px;
+    }
+    
+    .px-6 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 
 ::-webkit-scrollbar-track {

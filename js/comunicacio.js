@@ -1,6 +1,6 @@
 // ── State ─────────────────────────────────────────────────────────────────
 let isCentreView = false;
-let unreadCount = 1;
+let unreadCount = 2;
 
 // ── DOM Elements ──────────────────────────────────────────────────────────
 const viewToggle = document.getElementById('view-toggle');
@@ -44,9 +44,17 @@ window.confirmReading = function (id) {
         // Fake toast or alert
         const toast = document.createElement('div');
         toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-bold shadow-2xl z-[200] animate-bounce';
-        toast.textContent = '✅ Recepció confirmada correctament';
+        toast.textContent = '✅ Autorització signada correctament';
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 3000);
+
+        // Actualizar tabla de centro (Simulación Marc García)
+        const progressBar = document.querySelector('.bg-secondary.h-full');
+        if (progressBar) {
+            progressBar.style.width = '46%';
+            const countSpan = document.querySelector('.text-\\[10px\\].font-black.text-slate-600');
+            if (countSpan) countSpan.textContent = '13/26';
+        }
     }
 };
 
@@ -65,22 +73,33 @@ const toggleModal = (show) => {
     }
 };
 
+// ── Tab Management (Family View) ──────────────────────────────────────────
+const familyTabs = document.querySelectorAll('#vista-familia .flex.gap-2 button');
+familyTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        familyTabs.forEach(t => {
+            t.classList.remove('bg-secondary', 'text-white', 'shadow-lg', 'shadow-purple-100');
+            t.classList.add('bg-white', 'text-slate-500', 'border', 'border-slate-200');
+        });
+        tab.classList.add('bg-secondary', 'text-white', 'shadow-lg', 'shadow-purple-100');
+        tab.classList.remove('bg-white', 'text-slate-500', 'border', 'border-slate-200');
+    });
+});
+
 // ── Events ────────────────────────────────────────────────────────────────
 if (viewToggle) viewToggle.addEventListener('click', toggleView);
 if (openModalBtn) openModalBtn.addEventListener('click', () => toggleModal(true));
 if (closeModalBtn) closeModalBtn.addEventListener('click', () => toggleModal(false));
 
-// Clic fora del modal per tancar
 if (modalNouComunicat) {
     modalNouComunicat.querySelector('.modal-backdrop').addEventListener('click', () => toggleModal(false));
 }
 
-// Form submit (fake)
-const form = modalNouComunicat.querySelector('form');
+const form = modalNouComunicat ? modalNouComunicat.querySelector('form') : null;
 if (form) {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        alert('Comunicat enviat correctament a totes les famílies seleccionades.');
+        alert('Comunicat enviat correctament al nivell educatiu seleccionat.');
         toggleModal(false);
         form.reset();
     });
