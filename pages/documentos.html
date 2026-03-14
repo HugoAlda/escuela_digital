@@ -8,26 +8,24 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
         rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
-
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         primary: '#2563EB',
-                        secondary: '#7C3AED',
-                        accent: '#FACC15',
-                        dark: '#1E293B'
+                        secondary: '#D97706', /* Amber per a Documents */
+                        secondaryLight: '#FEF3C7',
+                        dark: '#1E293B',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        display: ['Outfit', 'sans-serif']
+                        display: ['Outfit', 'sans-serif'],
                     }
                 }
             }
@@ -36,213 +34,433 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Animació suau per al filtre */
+        .doc-item {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    </style>
 </head>
 
 <body class="bg-slate-50 min-h-screen font-sans">
 
-    <!-- NAV -->
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-
-                <div class="flex items-center gap-2">
-                    <a href="../index.html" class="text-slate-400 hover:text-primary">
+                <div class="flex items-center gap-3">
+                    <a href="../index.html" class="text-slate-400 hover:text-secondary transition-colors">
                         <i class="fa fa-arrow-left"></i>
                     </a>
-
-                    <span class="font-display text-xl text-secondary flex items-center gap-2">
-                        <i class="fa fa-folder-open"></i>
-                        Escola<span class="text-slate-900">Docs</span>
+                    <span class="font-display font-800 text-xl text-secondary flex items-center gap-2">
+                        <i class="fa fa-folder-open"></i> Escola<span class="text-slate-900">Docs</span>
                     </span>
                 </div>
-
                 <div class="flex items-center gap-4">
-
                     <button id="view-toggle"
-                        class="bg-purple-50 text-secondary px-4 py-2 rounded-lg text-sm font-semibold hover:bg-purple-100">
+                        class="bg-amber-50 text-secondary px-4 py-2 rounded-xl text-sm font-bold hover:bg-amber-100 transition-colors border border-amber-200">
                         <i class="fa fa-exchange-alt mr-2"></i> Canviar Vista
                     </button>
-
+                    <div class="relative cursor-pointer">
+                        <i class="fa fa-bell text-slate-400 text-xl hover:text-secondary transition-colors"></i>
+                        <span
+                            class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 border-2 border-white rounded-full"></span>
+                    </div>
                 </div>
-
             </div>
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+    <main class="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
 
-        <!-- VISTA FAMILIA -->
-        <div id="vista-familia">
+        <div id="vista-familia" class="space-y-6">
 
-            <header class="mb-6">
-                <h1 class="font-display text-3xl text-slate-900">Documents Familiars</h1>
-                <p class="text-slate-500">Consulta els documents disponibles de l'alumne.</p>
+            <header class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+                <div>
+                    <h1 class="font-display font-800 text-3xl text-slate-900 leading-tight">Els meus documents</h1>
+                    <p class="text-slate-500 mt-1">Expedients, certificats i normativa centralitzats al núvol.</p>
+                </div>
+                <button id="btn-solicitar"
+                    class="bg-secondary text-white px-5 py-2.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-amber-700 transition-all shadow-lg shadow-amber-200">
+                    <i class="fa fa-file-signature"></i> Sol·licitar Certificat
+                </button>
             </header>
 
-            <div class="grid md:grid-cols-3 gap-6">
-
-                <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-purple-100 text-secondary flex items-center justify-center mb-4">
-                        <i class="fa fa-file"></i>
-                    </div>
-
-                    <h3 class="font-display text-lg text-slate-900 mb-2">
-                        Certificat d'escolarització
-                    </h3>
-
-                    <p class="text-sm text-slate-600 mb-4">
-                        Document oficial del centre educatiu.
-                    </p>
-
-                    <button class="bg-secondary text-white px-4 py-2 rounded-lg text-sm">
-                        Descarregar
-                    </button>
-
-                </div>
-
-
-                <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
-                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-primary flex items-center justify-center mb-4">
-                        <i class="fa fa-file-lines"></i>
-                    </div>
-
-                    <h3 class="font-display text-lg text-slate-900 mb-2">
-                        Expedient acadèmic
-                    </h3>
-
-                    <p class="text-sm text-slate-600 mb-4">
-                        Notes i historial acadèmic.
-                    </p>
-
-                    <button class="bg-primary text-white px-4 py-2 rounded-lg text-sm">
-                        Veure document
-                    </button>
-
-                </div>
-
-
-                <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
-                    <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mb-4">
-                        <i class="fa fa-cloud"></i>
-                    </div>
-
-                    <h3 class="font-display text-lg text-slate-900 mb-2">
-                        Documents del centre
-                    </h3>
-
-                    <p class="text-sm text-slate-600 mb-4">
-                        Normativa i documents generals.
-                    </p>
-
-                    <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm">
-                        Consultar
-                    </button>
-
-                </div>
-
+            <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide" id="tabs-container">
+                <button data-filter="all"
+                    class="tab-btn whitespace-nowrap px-5 py-2.5 rounded-xl text-xs font-bold bg-secondary text-white shadow-lg shadow-amber-100 transition-all border border-secondary">Tots
+                    els documents</button>
+                <button data-filter="expedient"
+                    class="tab-btn whitespace-nowrap px-5 py-2.5 rounded-xl text-xs font-bold bg-white text-slate-500 border border-slate-200 hover:border-secondary transition-all">Expedient
+                    Acadèmic</button>
+                <button data-filter="certificats"
+                    class="tab-btn whitespace-nowrap px-5 py-2.5 rounded-xl text-xs font-bold bg-white text-slate-500 border border-slate-200 hover:border-secondary transition-all">Certificats
+                    Oficials</button>
+                <button data-filter="facturacio"
+                    class="tab-btn whitespace-nowrap px-5 py-2.5 rounded-xl text-xs font-bold bg-white text-slate-500 border border-slate-200 hover:border-secondary transition-all">Facturació</button>
             </div>
 
+            <div class="grid md:grid-cols-3 gap-6" id="documents-grid">
+
+                <div data-category="certificats"
+                    class="doc-item doc-card bg-white border border-slate-200 p-6 rounded-2xl shadow-sm transition-all cursor-pointer group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <i class="fa fa-file-pdf"></i>
+                        </div>
+                        <span
+                            class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">Acabat
+                            de generar</span>
+                    </div>
+                    <h3 class="font-display font-700 text-lg text-slate-900 mb-1">Certificat d'escolarització</h3>
+                    <p class="text-xs text-slate-400 mb-4 uppercase font-semibold tracking-wide">Curs 2026/2027 • PDF •
+                        145 KB</p>
+                    <div class="flex gap-2">
+                        <button
+                            class="flex-1 bg-slate-50 text-slate-600 border border-slate-200 py-2 rounded-lg text-sm font-bold hover:bg-slate-100 transition-colors">Veure</button>
+                        <button
+                            class="flex-1 bg-blue-50 text-blue-600 py-2 rounded-lg text-sm font-bold hover:bg-blue-100 transition-colors flex items-center justify-center gap-2">
+                            <i class="fa fa-download"></i> Baixar
+                        </button>
+                    </div>
+                </div>
+
+                <div data-category="expedient"
+                    class="doc-item doc-card bg-white border border-slate-200 p-6 rounded-2xl shadow-sm transition-all cursor-pointer group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                            <i class="fa fa-graduation-cap"></i>
+                        </div>
+                    </div>
+                    <h3 class="font-display font-700 text-lg text-slate-900 mb-1">Expedient Acadèmic</h3>
+                    <p class="text-xs text-slate-400 mb-4 uppercase font-semibold tracking-wide">Actualitzat Juny 2026 •
+                        Accés segur</p>
+                    <button
+                        class="w-full bg-purple-50 text-purple-600 border border-purple-100 py-2 rounded-lg text-sm font-bold hover:bg-purple-100 transition-colors mt-8">
+                        Obrir al Workspace
+                    </button>
+                </div>
+
+                <div data-category="facturacio"
+                    class="doc-item doc-card bg-white border border-slate-200 p-6 rounded-2xl shadow-sm transition-all cursor-pointer group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                            <i class="fa fa-file-invoice-dollar"></i>
+                        </div>
+                        <span
+                            class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">Pagat</span>
+                    </div>
+                    <h3 class="font-display font-700 text-lg text-slate-900 mb-1">Quota Material Curs</h3>
+                    <p class="text-xs text-slate-400 mb-4 uppercase font-semibold tracking-wide">Setembre 2026 • PDF •
+                        82 KB</p>
+                    <div class="flex gap-2">
+                        <button
+                            class="flex-1 bg-slate-50 text-slate-600 border border-slate-200 py-2 rounded-lg text-sm font-bold hover:bg-slate-100 transition-colors">Veure</button>
+                        <button
+                            class="flex-1 bg-emerald-50 text-emerald-600 py-2 rounded-lg text-sm font-bold hover:bg-emerald-100 transition-colors flex items-center justify-center gap-2">
+                            <i class="fa fa-download"></i> Baixar
+                        </button>
+                    </div>
+                </div>
+
+                <div data-category="certificats" onclick="document.getElementById('btn-solicitar').click()"
+                    class="doc-item doc-card border-2 border-dashed border-slate-300 p-6 rounded-2xl flex flex-col items-center justify-center text-center hover:border-secondary hover:bg-amber-50/30 transition-all cursor-pointer">
+                    <div
+                        class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-xl mb-3">
+                        <i class="fa fa-plus"></i>
+                    </div>
+                    <h3 class="font-display font-700 text-slate-700">Necessites un altre document?</h3>
+                    <p class="text-xs text-slate-500 mt-1">Sol·licita la creació mitjançant el workflow automàtic.</p>
+                </div>
+            </div>
         </div>
 
 
-        <!-- VISTA CENTRE -->
-        <div id="vista-centre" class="hidden">
-
-            <header class="mb-6">
-                <h1 class="font-display text-3xl text-slate-900">Tauler de Gestió Documental</h1>
-                <p class="text-slate-500">Gestió dels expedients digitals dels alumnes.</p>
+        <div id="vista-centre" class="hidden space-y-8">
+            <header class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                <div>
+                    <h1 class="font-display font-800 text-3xl text-slate-900 leading-tight">Escola<span
+                            class="text-secondary">Docs Dashboard</span></h1>
+                    <p class="text-slate-500 mt-2">Gestió integrada amb Google Workspace / M365.</p>
+                </div>
+                <div class="flex gap-3">
+                    <button
+                        class="bg-white border border-slate-200 text-slate-600 px-4 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm">
+                        <i class="fab fa-google text-red-500"></i> Integració Workspace
+                    </button>
+                    <button id="btn-pujar"
+                        class="bg-secondary text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-amber-700 transition-all shadow-lg shadow-amber-200">
+                        <i class="fa fa-cloud-arrow-up"></i> Pujar Arxius
+                    </button>
+                </div>
             </header>
 
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-16 h-16 bg-blue-50 rounded-bl-full z-0"></div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 relative z-10">Espai
+                        Ocupat (Núvol)</p>
+                    <p class="text-2xl font-800 text-slate-900 font-display relative z-10">2.1 <span
+                            class="text-sm text-slate-500">/ 100 TB</span></p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-16 h-16 bg-green-50 rounded-bl-full z-0"></div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 relative z-10">Docs.
+                        Digitalitzats</p>
+                    <p class="text-2xl font-800 text-slate-900 font-display relative z-10">4.823</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-16 h-16 bg-amber-50 rounded-bl-full z-0"></div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 relative z-10">
+                        Sol·licituds Pendents</p>
+                    <p class="text-2xl font-800 text-secondary font-display relative z-10">5 <span
+                            class="text-xs font-normal text-secondary bg-amber-100 px-2 py-0.5 rounded-full ml-1">Workflow
+                            actiu</span></p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-16 h-16 bg-purple-50 rounded-bl-full z-0"></div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 relative z-10">Estalvi
+                        Paper (est.)</p>
+                    <p class="text-2xl font-800 text-purple-600 font-display relative z-10">18 <span
+                            class="text-sm text-purple-400">Arbres</span></p>
+                </div>
+            </div>
 
-            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-
-                <div class="p-6 border-b border-slate-200">
-                    <h3 class="font-display text-lg text-slate-900">
-                        Expedients acadèmics
-                    </h3>
+            <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+                <div
+                    class="p-6 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/50">
+                    <div class="flex items-center gap-4">
+                        <button class="px-4 py-2 rounded-xl text-xs font-bold bg-secondary text-white">Actius</button>
+                        <button
+                            class="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50">Històric
+                            / Alumni</button>
+                    </div>
+                    <div class="relative">
+                        <i class="fa fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" placeholder="Cercar per alumne o curs..."
+                            class="pl-10 pr-4 py-2 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-secondary/20 transition-all w-full md:w-64">
+                    </div>
                 </div>
 
                 <div class="overflow-x-auto">
-
-                    <table class="w-full text-left">
-
-                        <thead class="bg-slate-50 text-slate-400 text-xs uppercase font-bold">
-
+                    <table class="w-full text-left font-sans">
+                        <thead class="bg-slate-100 text-slate-500 text-[10px] uppercase font-bold tracking-widest">
                             <tr>
                                 <th class="px-6 py-4">Alumne</th>
                                 <th class="px-6 py-4">Curs</th>
-                                <th class="px-6 py-4">Expedient</th>
-                                <th class="px-6 py-4">Documents</th>
-                                <th class="px-6 py-4">Estat</th>
+                                <th class="px-6 py-4">Workspace Drive</th>
+                                <th class="px-6 py-4">Estat Workflow</th>
+                                <th class="px-6 py-4 text-right">Accions</th>
                             </tr>
-
                         </thead>
-
-                        <tbody class="divide-y divide-slate-100">
-
-                            <tr>
-                                <td class="px-6 py-4 font-semibold text-slate-700">Marc García</td>
-                                <td class="px-6 py-4 text-sm text-slate-500">5è Primària</td>
-                                <td class="px-6 py-4 text-sm">Digital</td>
-                                <td class="px-6 py-4 text-sm">12</td>
+                        <tbody class="divide-y divide-slate-100 text-sm">
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="font-bold text-slate-700">Marc García</div>
+                                    <div class="text-[10px] text-slate-400">ID: ALU-2026-001</div>
+                                </td>
                                 <td class="px-6 py-4">
                                     <span
-                                        class="px-2 py-1 bg-green-50 text-green-600 text-xs font-bold rounded-full">Actualitzat</span>
+                                        class="px-2 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-md">5è
+                                        Primària</span>
                                 </td>
-                            </tr>
-
-                            <tr>
-                                <td class="px-6 py-4 font-semibold text-slate-700">Laura Martínez</td>
-                                <td class="px-6 py-4 text-sm text-slate-500">6è Primària</td>
-                                <td class="px-6 py-4 text-sm">Digital</td>
-                                <td class="px-6 py-4 text-sm">10</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2 text-slate-600">
+                                        <i class="fab fa-google-drive text-blue-500"></i> 12 Arxius (45MB)
+                                    </div>
+                                </td>
                                 <td class="px-6 py-4">
                                     <span
-                                        class="px-2 py-1 bg-amber-50 text-amber-600 text-xs font-bold rounded-full">Revisió</span>
+                                        class="px-2 py-1 bg-green-50 text-green-600 text-[10px] font-bold rounded-full border border-green-100">
+                                        <i class="fa fa-check-circle mr-1"></i> Complet
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="p-2 text-slate-400 hover:text-secondary transition-colors"
+                                        title="Veure carpeta"><i class="fa fa-folder-open"></i></button>
+                                    <button class="p-2 text-slate-400 hover:text-blue-500 transition-colors"
+                                        title="Compartir"><i class="fa fa-share-nodes"></i></button>
                                 </td>
                             </tr>
-
-                            <tr>
-                                <td class="px-6 py-4 font-semibold text-slate-700">Pol Fernández</td>
-                                <td class="px-6 py-4 text-sm text-slate-500">4t Primària</td>
-                                <td class="px-6 py-4 text-sm">Digital</td>
-                                <td class="px-6 py-4 text-sm">8</td>
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="font-bold text-slate-700">Laia Valls</div>
+                                    <div class="text-[10px] text-slate-400">ID: ALU-2026-002</div>
+                                </td>
                                 <td class="px-6 py-4">
                                     <span
-                                        class="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-full">Actiu</span>
+                                        class="px-2 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-md">6è
+                                        Primària</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2 text-slate-600">
+                                        <i class="fab fa-google-drive text-blue-500"></i> 12 Arxius (45MB)
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="px-2 py-1 bg-green-50 text-green-600 text-[10px] font-bold rounded-full border border-green-100">
+                                        <i class="fa fa-check-circle mr-1"></i> Complet
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="p-2 text-slate-400 hover:text-secondary transition-colors"
+                                        title="Veure carpeta"><i class="fa fa-folder-open"></i></button>
+                                    <button class="p-2 text-slate-400 hover:text-blue-500 transition-colors"
+                                        title="Compartir"><i class="fa fa-share-nodes"></i></button>
                                 </td>
                             </tr>
-
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="font-bold text-slate-700">Marc García</div>
+                                    <div class="text-[10px] text-slate-400">ID: ALU-2026-003</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="px-2 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-md">7è
+                                        Primària</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2 text-slate-600">
+                                        <i class="fab fa-google-drive text-blue-500"></i> 12 Arxius (45MB)
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="px-2 py-1 bg-green-50 text-green-600 text-[10px] font-bold rounded-full border border-green-100">
+                                        <i class="fa fa-check-circle mr-1"></i> Complet
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="p-2 text-slate-400 hover:text-secondary transition-colors"
+                                        title="Veure carpeta"><i class="fa fa-folder-open"></i></button>
+                                    <button class="p-2 text-slate-400 hover:text-blue-500 transition-colors"
+                                        title="Compartir"><i class="fa fa-share-nodes"></i></button>
+                                </td>
+                            </tr>
                         </tbody>
-
                     </table>
-
                 </div>
-
             </div>
-
         </div>
 
     </main>
 
+    <div id="modal-solicitud" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm modal-backdrop"></div>
+        <div class="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden transform transition-all">
+            <div class="bg-secondary p-6 text-white text-center">
+                <i class="fa fa-wand-magic-sparkles text-3xl mb-3"></i>
+                <h2 class="font-display font-800 text-xl tracking-tight">Sol·licitud de Document</h2>
+                <p class="text-white/80 text-sm mt-1">El workflow generarà l'arxiu automàticament.</p>
+            </div>
+            <form id="form-solicitud" class="p-8 space-y-4 bg-white">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5">Tipus de
+                        Certificat</label>
+                    <select id="tipo-certificado"
+                        class="w-full border-slate-200 rounded-xl p-3 text-sm focus:ring-secondary/20 focus:border-secondary outline-none border transition-all text-slate-700 bg-slate-50">
+                        <option>Certificat d'Escolarització</option>
+                        <option>Certificat de Notes (Expedient)</option>
+                        <option>Justificant d'Assistència</option>
+                        <option>Duplicat de Factura</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5">Motiu /
+                        Observacions</label>
+                    <textarea rows="3" placeholder="Opcional..."
+                        class="w-full border-slate-200 rounded-xl p-3 text-sm focus:ring-secondary/20 focus:border-secondary outline-none border transition-all bg-slate-50"></textarea>
+                </div>
+                <div class="flex gap-4 pt-2">
+                    <button type="button" id="close-modal-btn"
+                        class="flex-1 border border-slate-200 text-slate-600 font-bold py-3 rounded-xl hover:bg-slate-50 transition-all">Cancel·lar</button>
+                    <button type="submit"
+                        class="flex-1 bg-secondary text-white font-bold py-3 rounded-xl hover:bg-amber-700 transition-all shadow-lg shadow-amber-200">
+                        Iniciar Petició
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
-
-        const toggleBtn = document.getElementById("view-toggle")
-
-        const vistaFamilia = document.getElementById("vista-familia")
-        const vistaCentre = document.getElementById("vista-centre")
+        // 1. Toggle Vistes (Família vs Centre)
+        const toggleBtn = document.getElementById("view-toggle");
+        const vistaFamilia = document.getElementById("vista-familia");
+        const vistaCentre = document.getElementById("vista-centre");
 
         toggleBtn.addEventListener("click", () => {
+            vistaFamilia.classList.toggle("hidden");
+            vistaCentre.classList.toggle("hidden");
 
-            vistaFamilia.classList.toggle("hidden")
-            vistaCentre.classList.toggle("hidden")
+            if (vistaFamilia.classList.contains("hidden")) {
+                toggleBtn.classList.replace("bg-amber-50", "bg-slate-800");
+                toggleBtn.classList.replace("text-secondary", "text-white");
+            } else {
+                toggleBtn.classList.replace("bg-slate-800", "bg-amber-50");
+                toggleBtn.classList.replace("text-white", "text-secondary");
+            }
+        });
 
-        })
+        // 2. Toggle Modal de Sol·licituds
+        const modal = document.getElementById("modal-solicitud");
+        const btnSolicitar = document.getElementById("btn-solicitar");
+        const closeModal = document.getElementById("close-modal-btn");
+        const backdrop = modal.querySelector(".modal-backdrop");
 
+        const openModal = () => modal.classList.remove("hidden");
+        const hideModal = () => modal.classList.add("hidden");
+
+        btnSolicitar.addEventListener("click", openModal);
+        closeModal.addEventListener("click", hideModal);
+        backdrop.addEventListener("click", hideModal);
+
+        // 3. LÒGICA DE LES PESTANYES (Filtres)
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const docItems = document.querySelectorAll('.doc-item');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Primer, treiem la classe "activa" de tots els botons i els posem en gris
+                tabBtns.forEach(t => {
+                    t.className = "tab-btn whitespace-nowrap px-5 py-2.5 rounded-xl text-xs font-bold bg-white text-slate-500 border border-slate-200 hover:border-secondary transition-all";
+                });
+
+                // Afegim la classe "activa" (color taronja) al botó que s'ha clicat
+                btn.className = "tab-btn whitespace-nowrap px-5 py-2.5 rounded-xl text-xs font-bold bg-secondary text-white shadow-lg shadow-amber-100 transition-all border border-secondary";
+
+                // Agafem el valor del filtre ('all', 'expedient', 'certificats', 'facturacio')
+                const filter = btn.getAttribute('data-filter');
+
+                // Recorrem totes les targetes de documents
+                docItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+
+                    if (filter === 'all' || filter === category) {
+                        item.style.display = 'block'; // Mostrar
+                    } else {
+                        item.style.display = 'none'; // Amagar
+                    }
+                });
+            });
+        });
     </script>
-
 </body>
 
 </html>
